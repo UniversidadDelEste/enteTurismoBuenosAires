@@ -26,7 +26,7 @@ def import_csv(filename, delimiter=';'):
 
 
 def write_csv(data, filename, delimiter=';'):
-    """Escribe los datos recibidos a un archivo 
+    """Escribe los datos recibidos a un archivo
 
     Keywords:
         data        -- Iterable, ej una lista de python
@@ -112,9 +112,8 @@ def get_category_id_by_name(name):
     """Retorna el id de una categoria segun el nombre"""
     connection = connect()
     cursor = connection.cursor()
-    cursor.execute(
-            "SELECT id FROM categoria where nombre = '{}';".format(name)
-            )
+    query = "SELECT id FROM categoria where nombre = %s;"
+    cursor.execute(query, [name])
     id_ = cursor.fetchone()
     cursor.close()
     connection.close()
@@ -126,9 +125,8 @@ def get_neighborhood_id_by_name(name):
     """Retorna el id de un barrio segun el nombre"""
     connection = connect()
     cursor = connection.cursor()
-    cursor.execute(
-            "SELECT id FROM barrio where nombre = '{}';".format(name)
-            )
+    query = "SELECT id FROM barrio where nombre = %s;"
+    cursor.execute(query, [name])
     id_ = cursor.fetchone()
     cursor.close()
     connection.close()
@@ -189,5 +187,5 @@ def connect(dbname=DBNAME, dbuser=DBUSER):
         dbname  --      Nombre de la base a conectarse
         dbuser    --      Usuario con el cual conectarse a la DB
     """
-    conn = psycopg2.connect("dbname={} user={}".format(dbname, dbuser)) 
+    conn = psycopg2.connect("dbname={} user={}".format(dbname, dbuser))
     return conn
